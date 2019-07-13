@@ -1,6 +1,6 @@
 # README.md
 
-This repository contains data, notes, and the writing a blog post I published at https://blog.richardkeller.net.
+This repository contains data, notes, and the writing for a blog post I published at my blog: https://blog.richardkeller.net.
 
 ## Series name: Pandas Crimes
 
