@@ -4,7 +4,7 @@ import pandas
 columns = ['year', 'state_name', 'population', 'violent_crime', 'property_crime']
 
 # Get the data into a dataframe from csv
-data = pandas.read_csv('estimated_crimes.csv', usecols=columns)
+data = pandas.read_csv('../data/estimated_crimes.csv', usecols=columns)
 
 # print(data.head())
 
