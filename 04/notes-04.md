@@ -1,0 +1,3 @@
+Topic: Trends
+
+- Car thefts are up but robbery is down...

@@ -30,7 +30,7 @@ raw_data = pandas.read_csv('../data/estimated_crimes.csv', usecols=cols)
 # the estimated totals for all states doesn't have a state name
 totals_2017 = raw_data.query('year == 2017 and state_name.isnull()')
 
-
+print(raw_data.info())
 """
 violent_crime          1196 non-null int64
 homicide               1196 non-null int64
@@ -38,7 +38,6 @@ rape_legacy            1196 non-null int64
 rape_revised           260 non-null float64
 robbery                1196 non-null int64
 aggravated_assault     1196 non-null int64
-
 property_crime         1196 non-null int64
 burglary               1196 non-null int64
 larceny                1196 non-null int64
@@ -62,12 +61,24 @@ crimes = [
 # We use notnull because the state name is not null for states
 data = raw_data.query('year == 2017 and state_name.notnull()')
 
+# Ranked By Total Homicides
 ranked_th = data.sort_values(by=['homicide'], ascending=False).head(10).reset_index()
 del ranked_th['index']
-print(ranked_th.head())
+print(ranked_th.head(10))
 
 
-# print(data.sort_values(by=['population'], ascending=False).head(10))
+# Note: New York did make the top 10 in homicides
+# even though they are in the top ten pop size.
+# I assumed New York would have the most reported homicides.
+# Maybe New York has the least reported Homicdes.
+# Note: New York is not OCR certified so that mean not enough agencies are reporting
+# New York should actually be excluded from conclusions based on this.
+print(data.sort_values(by=['population'], ascending=False).head(10))
+
+# Ranked By Total Homicides Relative to the Population Size
+
+
+
 
 """
       year      state_name  population  homicide
