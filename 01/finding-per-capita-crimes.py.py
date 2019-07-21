@@ -42,10 +42,10 @@ data['diff_of_national_average'] = data.apply(compute_diff, axis=1)
 
 # TODO add column of percent diff compared to national average
 def compute_percent(row):
-    percent = (row['crime_per_1000']/national_average_per_cap)*100
+    percent = (row['crime_per_1000'] / national_average_per_cap)*100
     # return str(int(percent)) + "%"
     if percent > 100:
-        return "+" + str(int(percent-100)) + "%"
+        return "+" + str(int(percent - 100)) + "%"
     return "-" + str(100 - int(percent)) + "%"
 
 data['percent_diff_national'] = data.apply(compute_percent, axis=1)
