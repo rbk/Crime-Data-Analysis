@@ -1,3 +1,4 @@
+"""Finding the Homicide rate in the United States."""
 import pandas
 
 cols = [
@@ -31,6 +32,7 @@ raw_data = pandas.read_csv('../data/estimated_crimes.csv', usecols=cols)
 totals_2017 = raw_data.query('year == 2017 and state_name.isnull()')
 
 print(raw_data.info())
+print(raw_data.head())
 """
 violent_crime          1196 non-null int64
 homicide               1196 non-null int64
@@ -84,17 +86,17 @@ print(ranked_by_total.head(10))
 # Biggest populations have the more homicides?
 
 """
-      year      state_name  population  homicide
-137   2017      California    39536653      1830
-1034  2017           Texas    28304596      1412
-252   2017         Florida    20984400      1057
-827   2017        New York    19849399       548
-919   2017    Pennsylvania    12805537       739
-367   2017        Illinois    12802023       997
-850   2017            Ohio    11658609       710
-275   2017         Georgia    10429379       703
-666   2017  North Carolina    10273419       591
-551   2017        Michigan     9962311       569
+   year      state_name  population  homicide
+0  2017      California    39536653      1830
+0  2017           Texas    28304596      1412
+0  2017         Florida    20984400      1057
+0  2017        New York    19849399       548
+0  2017    Pennsylvania    12805537       739
+0  2017        Illinois    12802023       997
+0  2017            Ohio    11658609       710
+0  2017         Georgia    10429379       703
+0  2017  North Carolina    10273419       591
+0  2017        Michigan     9962311       569
 """
 
 
@@ -111,6 +113,7 @@ print(ranked_by_total.head(10))
 # Ranked By Total Homicides Relative to the Population Size
 # Per 100,000 people
 def per_capita(row):
+    """Calculate the homcide rate per capita."""
     total_homicides = row['homicide']
     population = row['population']
     count = (total_homicides / population) * 100000
