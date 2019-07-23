@@ -1,53 +1,29 @@
 ---
 title: Crime Data Exploration with Python3 and Pandas: Part 2 
 published: true
-description: 
+description: Analyzing the homcide rate for the United States 2017 UCR dataset
 tags: data exploration, python, pandas
-canonical_url: 
-cover_image: 
+canonical_url: https://blog.richardkeller.net/crime-data-exploration-with-python3-and-pandas-part-2/
+cover_image: https://s3.amazonaws.com/blog.richardkeller.net/posts/crime-data-analysis-01/crime-2.jpg
 series: Pandas Crime
 ---
 
-Follow along or checkout the code here: https://github.com/rbk/Crime-Data-Analysis
-
-<blockquote>
-    <h2>FBI Disclaimer</h2>
-    "The data found on the Crime Data Explorer represents reported crime, and is not an exhaustive report of all crime that occurs. It’s important to consider the various factors that lead to crime activity and crime reporting in a community before interpreting the data. Without these considerations the available data can be deceiving. Factors to consider include population size and density, economic conditions, employment rates, prosecutorial, judicial, and correctional policies, administrative and investigative emphases of law enforcement, citizens’ attitudes toward crime and policing, and the effective strength of the police force."
-- (Quote Source)[https://crime-data-explorer.fr.cloud.gov/explorer/state/new-york/crime]
-- (For more information on the use of the UCR database)[https://ucr.fbi.gov/ucr-statistics-their-proper-use]
-</blockquote>
-
-```
--    year      state_name  population  homicide
--    2017      California    39536653      1830
--    2017           Texas    28304596      1412
--    2017         Florida    20984400      1057
-x    2017        New York    19849399       548
--    2017    Pennsylvania    12805537       739
--    2017        Illinois    12802023       997
--    2017            Ohio    11658609       710
--    2017         Georgia    10429379       703
--    2017  North Carolina    10273419       591
--    2017        Michigan     9962311       569
-```
-
-**Part 2 in Crime Dataset Analysis Series***
-In the last post from this series we learned useful Pandas functions to manipulate our dataset and calculated the overall crime rate  (relative to the national average) for each state in the United States. 
-
 ## Objective
-The object of the post series is to explore the Uniform Crime Reporting (UCR) Program's datasets. In this post we'll use Pandas (a python package) to dig deeper into the crime statistic for homicide. We will prepare the dataset for comparison and rank each state based on number of crimes per capita.  
+The purpose of this post series is to explore datasets from the UCR (Uniforn Crime Reporting Program). In this post, we'll use Pandas to dig deeper into crime statistics for homicide. After preparing the dataset for comparison, we'll rank each state based on number of crimes per capita.
+
+Follow along or checkout the code on [Github.](https://github.com/rbk/Crime-Data-Analysis)
 
 ## About the data
-The dataset we are using is the `estimated_crimes.csv`. This file contains the estimated crimes for 7 types of crime, from the years 1995 to 2017, for the United States. For more information about this dataset and how it is compiled visit the <a href="https://crime-data-explorer.fr.cloud.gov/">Cime Data Explorer.</a>
+The dataset we are using is the `estimated_crimes.csv` downloaded from the <a href="https://crime-data-explorer.fr.cloud.gov/">Cime Data Explorer</a> website. This file contains the estimated crimes for 7 types of crimes, from the years 1995 to 2017, for the United States. For more information about this dataset and how it is compiled visit the <a href="https://crime-data-explorer.fr.cloud.gov/">Cime Data Explorer.</a>
 
 ## Preparing the data
 For data manipulation we will use Pandas. The first thing we need to do is download the dataset and load it into a Pandas dataframe.
 
-**If you need the dataset you can download it here: https://github.com/rbk/Crime-Data-Analysis**
+If you need the dataset you can download it here: [https://github.com/rbk/Crime-Data-Analysis](https://github.com/rbk/Crime-Data-Analysis)
 
-In the following code, we use pandas to open the `estimated_crimes.csv` into a <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html">dataframe</a>. 
+In the following code, we use pandas to open the **estimated_crimes.csv** into a <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html">dataframe</a>. 
 
-We specify the columns we want to work with by specifying the `usecols` attribute. This attribute tells the read_csv function to only load in the column with the header that are in the usecols array.
+We specify the columns we want to work with by specifying the **usecols** attribute. This attribute tells the **read_csv** function to only load in the column with the headers that are in the cols array:
 
 ```python
 import pandas
@@ -64,7 +40,8 @@ raw_data = pandas.read_csv('../data/estimated_crimes.csv', usecols=cols)
 print(raw_data.head())
 ```
 
-Your output should be like this:
+### Output:
+
 ```
    year state_name  population  homicide
 0  1995        NaN   262803276     21606
@@ -74,13 +51,13 @@ Your output should be like this:
 4  1999        NaN   272690813     15522
 ```
 
-If you are curious on how to find out what the headers of your CSV are, use the `info` function:
+If you are curious on how to find out what the headers of your CSV are, use the **info** function:
 
 ```python
 data = pandas.read_csv('../data/estimated_crimes.csv')
 print(data.info())
 ```
-The result should look like this:
+### Output:
 
 ```
 <class 'pandas.core.frame.DataFrame'>
@@ -106,22 +83,20 @@ dtypes: float64(2), int64(11), object(3)
 
 ```
 
-
 ## Top 10 States Ranked By Total Homicides
-Now that we have a dataframe, we can start processing the data. The first thing we will do is rank the states by the number of homicides. 
+Now that we have our data loaded into a dataframe, we can start processing the data. The first thing we will do is rank the states by the number of homicides. 
 
 This is a bad idea. Let's do it anyway to see why.
 
-This is a very simple task. First, we query the data by year so that all the rows in our dataframe are for the 2017 year.
-
+This is a very simple task. First, we query the dataframe by the year:
 
 ```python
 # Get 2017 state data
 # We use notnull because the state name is not null for states
 data = raw_data.query('year == 2017 and state_name.notnull()')
 ```
-Next we sort the data using `sort_values`.
-Using the `by` attribute, we provide an array of columns to sort by. In this case we are sorting by the count of homicides.
+Next we sort the data using **sort_values**.
+Using the **by** attribute, we provide an array of columns to sort by. In this case we are sorting by the count of homicides.
 
 ```python
 # Ranked By Total Homicides
@@ -131,7 +106,7 @@ del ranked_by_total['index']
 print(ranked_by_total.head(10))
 ```
 
-The output of the above code should look like this:
+### Output:
 
 ```
    year      state_name  population  homicide
@@ -166,18 +141,22 @@ From this simple sort we can say that California has the most homicides per year
 0  2017        Michigan     9962311       569
 ```
 
-Ranking the states in this way doesn't make sense because the number of homicides is not proportional to the number of people.
+Ranking the states in this way doesn't make sense because the number of homicides is not proportional to the number of people in the states.
 
-From looking at the homicides ranked vs the populations, you can see that there is a strong correlation between the number of homicides and the population, however, it is not a perfect 1 to 1 correlation.
+From looking at the homicides ranked vs the populations, you can see that there is a strong correlation between the number of homicides and the population.
 
 Next, we will rank the states by homicide rate.
 
 ## Top 10 States Ranked By Total Homicides Relative to the Population Size
 Now we will rank the states in homcide by the population size. This will give us a clearer picture of the homcide rate, e.g. the number of homicides per 100,000 people.
 
-- We'll use Pandas Apply function to create a new row to sort by.
-- We perform the calculation to normalize the homicides per 100,000 people.
-- Finally, we print 50 rows.
+
+First, we'll use Pandas **apply** function to create a new row.
+The apply function takes the name of a function and "applies" the result of the function to each row. Our function is called **per_capital**. 
+
+The per_capita function takes each row of data and performs a calculation to normalize data.
+
+The result is that we have a column for each row with the number of homicides per 100,000 people.
 
 ```python
 # Ranked By Total Homicides Relative to the Population Size
@@ -198,7 +177,12 @@ del ranked_by_population['index']
 print(ranked_by_population.head(50))
 ```
 
+Finally, we print all the rows.
+
+### Output:
+
 ```
+    year            state_name  population  homicide  per_captia
 0   2017  District of Columbia      693972       116   16.715372
 1   2017             Louisiana     4684333       582   12.424394
 2   2017              Missouri     6113532       600    9.814294
@@ -249,7 +233,30 @@ print(ranked_by_population.head(50))
 47  2017                 Idaho     1716943        32    1.863778
 48  2017                 Maine     1335907        23    1.721677
 49  2017          North Dakota      755393        10    1.323814
+50  2017         New Hampshire     1342795        14    1.042601
+
 ```
 
 ## What can we infer from this analysis
+The new column **per_capita**, gives us a more accurate description of the homicide rate per 100,000 people for each state. For example, we could say that for every 100,000 people in Louisiana, there are 2.4 homicides reported. 
+
+Here are a few more conclusions we can draw from this analysis:
+
+- The District of Columbia has the highest homicide rate, ranking #1 for the most homicides per capita (per 100,000 people).
+- Although California has the largest population, the homicide rate ranks #29 in the country.
+- New Hampshire has the lowest homicide rate.
+
 ## Conclusion
+
+The lesson from this analysis is that sorting by count doesn't tell the full story about the data. California would be ranked #1 in homicides from the first analysis, but in reality, California has a lower homicide rate than 28 other states. This is a simple example of how data can be decieving.
+
+To recap, we used Pandas **read_csv** to explore the Estimated Crime 2017 dataset. We ranked states by total homicides. Then we looked at the homicide rate, which gave of very different views of how the states rank in homicdes.
+
+Thanks for reading!
+
+### FBI Disclaimer
+> "The data found on the Crime Data Explorer represents reported crime, and is not an exhaustive report of all crime that occurs. It’s important to consider the various factors that lead to crime activity and crime reporting in a community before interpreting the data. Without these considerations the available data can be deceiving. Factors to consider include population size and density, economic conditions, employment rates, prosecutorial, judicial, and correctional policies, administrative and investigative emphases of law enforcement, citizens’ attitudes toward crime and policing, and the effective strength of the police force."
+>
+> --- [Crime Data Explorer, Retrieved 19:45, July 22, 2019](https://crime-data-explorer.fr.cloud.gov/explorer/state/new-york/crime)
+
+- [For more information on the use of the UCR database](https://ucr.fbi.gov/ucr-statistics-their-proper-use)

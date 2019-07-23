@@ -2,17 +2,9 @@
 
 ## 02 Outline/Task
 - [x] Objective - Data Exploration, Ask Questions
-- [ ] Preparing the data
-- [ ] Top 10 States Ranked By Homicides (Total)
-- [ ] Top 10 States Ranked By Homicides (Relative to Population Size)
-- [ ] Describe the difference
-
-## 03 Outline/Task
-- [ ] Objective - Visualize Data
-- [ ] Recap Ranked States Differences
-- [ ] Matplot overview
-- [ ] Graph Top 5 for Each Crime
-- [ ] Graph Top 5 for Each Crime (Relative to Population Size)
+- [x] Preparing the data
+- [x] Top 10 States Ranked By Homicides (Total)
+- [x] Top 10 States Ranked By Homicides (Relative to Population Size)
 - [ ] Describe the difference
 
 

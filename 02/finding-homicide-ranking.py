@@ -125,7 +125,7 @@ data['per_captia'] = data.apply(per_capita, axis=1)
 ranked_by_population = data.sort_values(by=['per_captia'], ascending=False)
 ranked_by_population = ranked_by_population.reset_index()
 del ranked_by_population['index']
-print(ranked_by_population.head(50))
+print(ranked_by_population.head(150))
 
 
 """
